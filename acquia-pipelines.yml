@@ -4,9 +4,25 @@ services:
   - php:
       version: 7.1
 
-#cde-databases:
-#  - cd1
-#  - cddemo4
+variables:
+# Enter your Acquia application variables here.
+  global:
+    SITENAME: $PIPELINE_CLOUD_SITE
+    # The Acquia Cloud application name or site name.
+    # By default, we let Pipelines detect this and set this.
+    ENVIRONMENT:
+    # The Acquia Cloud environment
+    # This can be used for code deployment purposes
+    DATABASE: $PIPELINE_CLOUD_SITE
+    # The Acquia Cloud database name.
+    # On Acquia, the name of the database provisioned by default
+    # is equal to the application name or site name.
+    # Only mnually created databases have unique names.
+
+cde-databases:
+  - $DATABASE
+  #- db2
+  # Enter additional databases, if applicable
 
 events:
   build:
@@ -45,10 +61,12 @@ events:
             # timeouts.
             - chmod 777 docroot/sites/default/settings.php
             # Make settings.php writable
-            - sed -i "s/lightningnightly/${PIPELINE_CLOUD_SITE}/g" docroot/sites/default/settings.php
-            # Replace 'lightningnightly' with the Acquia application name
-            # in the settings.php file so the Acquia database connection snippet
-            # referneces the correct database
+            - sed -i "s/lightningnightly/${PIPELINE_CLOUD_SITE}" docroot/sites/default/settings.php
+            - sed -i "s/lightningnightly-settings.inc/${DATABASE}-settings.inc" docroot/sites/default/settings.php
+            # Replace the Acquia database connection snippet in settings.php
+            # `require '/var/www/site-php/lightningnightly/lightningnightly-settings.inc';`
+            # with the Acquia application name and Acquia database name.
+            # See https://docs.acquia.com/acquia-cloud/manage/database/#configuring-your-application-to-use-environment-databases
             - chmod 550 docroot/sites/default/settings.php
             # Make settings.php unwritable
             - rm ./vendor/bin/drush
@@ -61,4 +79,5 @@ events:
       - deploy:
           script:
             - pipelines-deploy
-            #- pipelines-sync-dbs db1 db2
+            - pipelines-sync-dbs $DATABASE
+            # See https://docs.acquia.com/acquia-cloud/develop/pipelines/databases/
