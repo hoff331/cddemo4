@@ -44,8 +44,13 @@ events:
             # cloud versions. Doing this the proper way with Composer can cause
             # timeouts.
             - chmod 777 docroot/sites/default/settings.php
-            - sed -i 's/lightningnightly/$PIPELINE_CLOUD_SITE/g' docroot/sites/default/settings.php
+            # Make settings.php writable
+            - sed -i "s/lightningnightly/${PIPELINE_CLOUD_SITE}/g" docroot/sites/default/settings.php
+            # Replace 'lightningnightly' with the Acquia application name
+            # in the settings.php file so the Acquia database connection snippet
+            # referneces the correct database
             - chmod 550 docroot/sites/default/settings.php
+            # Make settings.php unwritable
             - rm ./vendor/bin/drush
             - rm -rf ./vendor/drush
 
