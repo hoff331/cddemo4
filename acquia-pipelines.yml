@@ -4,6 +4,10 @@ services:
   - php:
       version: 7.1
 
+#cde-databases:
+#  - cd1
+#  - cddemo4
+
 events:
   build:
     steps:
@@ -39,8 +43,17 @@ events:
             # Remove the Drush binary and package so it doesn't interfere with
             # cloud versions. Doing this the proper way with Composer can cause
             # timeouts.
-            - chmod 777 /docroot/sites/default/settings.php
-            - sed -i 's/lightningnightly/$PIPELINE_CLOUD_SITE/g' /docroot/sites/default/settings.php
-            - chmod 550 /docroot/sites/default/settings.php
+            - chmod 777 docroot/sites/default/settings.php
+            - sed -i 's/lightningnightly/$PIPELINE_CLOUD_SITE/g' docroot/sites/default/settings.php
+            - chmod 550 docroot/sites/default/settings.php
             - rm ./vendor/bin/drush
             - rm -rf ./vendor/drush
+
+  post-deploy:
+    steps:
+      # Deploy the build artifact to an on-demand environment,
+      # and sync the specified databases.
+      - deploy:
+          script:
+            - pipelines-deploy
+            #- pipelines-sync-dbs db1 db2
