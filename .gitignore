@@ -1,5 +1,18 @@
-# Ignore paths that contain user-generated content.
-docroot/files
-docroot/sites/*/files
-docroot/sites/*/private
+# Ignore binaries.
+/bin
 
+# Ignore non-custom parts of Drupal.
+/docroot/core
+/docroot/libraries
+/docroot/modules/contrib
+/docroot/profiles/contrib
+/docroot/themes/contrib
+/docroot/sites/default/files
+
+# Ignore paths that contain user-generated content.
+/docroot/files
+/docroot/sites/*/files
+/docroot/sites/*/private
+
+# Ignore Composer-managed dependencies.
+vendor/
