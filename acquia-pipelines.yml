@@ -62,7 +62,7 @@ events:
             - chmod 777 docroot/sites/default/settings.php
             # Make settings.php writable
             - sed -i "s/lightningnightly/${PIPELINE_CLOUD_SITE}" docroot/sites/default/settings.php
-            - sed -i "s/lightningnightly-settings.inc/${DATABASE}-settings.inc" docroot/sites/default/settings.php
+            - sed -i "s/lightningnightly-settings\.inc/${DATABASE}-settings\.inc" docroot/sites/default/settings.php
             # Replace the Acquia database connection snippet in settings.php
             # `require '/var/www/site-php/lightningnightly/lightningnightly-settings.inc';`
             # with the Acquia application name and Acquia database name.
