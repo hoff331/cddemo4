@@ -58,20 +58,12 @@ events:
           script:
             - cd $SOURCE_DIR
             # Setup settings file and codebase with minimum required for cloud.
-            - lightning configure:cloud
+            # Pass SITENAME to configureCloud function as optional subscription parameter.
+            # See lightning_dev/Commands/RoboFile.php:533.
+            - lightning configure:cloud $SITENAME
             # Remove the Drush binary and package so it doesn't interfere with
             # cloud versions. Doing this the proper way with Composer can cause
             # timeouts.
-            - chmod 777 docroot/sites/default/settings.php
-            # Make settings.php writable
-            - sed -i "s/lightningnightly/${PIPELINE_CLOUD_SITE}/" docroot/sites/default/settings.php
-            - sed -i "s/lightningnightly-settings\.inc/${DATABASE}-settings\.inc/" docroot/sites/default/settings.php
-            # Replace the Acquia database connection snippet in settings.php
-            # `require '/var/www/site-php/lightningnightly/lightningnightly-settings.inc';`
-            # with the Acquia application name and Acquia database name.
-            # See https://docs.acquia.com/acquia-cloud/manage/database/#configuring-your-application-to-use-environment-databases
-            - chmod 550 docroot/sites/default/settings.php
-            # Make settings.php unwritable
             - rm ./vendor/bin/drush
             - rm -rf ./vendor/drush
 
