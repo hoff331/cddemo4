@@ -33,28 +33,36 @@ events:
             - echo "sitename = $SITENAME"
             - echo "environment = $ENVIRONMENT"
             - echo "database = $DATABASE"
-            # Add Composer's local bin directory to the PATH so that we will be
-            # running our installed versions of Drush, PHPCS, Behat, etc.
-            - export PATH="$HOME/.composer/vendor/bin:$SOURCE_DIR/vendor/bin:$PATH"
-            - composer validate --no-check-all --ansi --no-interaction
-            - composer update
-      - install:
+    # Build a development codebase suitable for testing.
+    # Uncomment these lines if you have included testing dependencies in
+    # Composer's "require-dev" section.
+    #  - build-dev:
+    #      type: script
+    #      script:
+    #        - composer validate --no-check-all --ansi
+    #        - composer install
+    #
+    # Install application.
+    # Uncomment these lines if you have tests defined for your application.
+    # (Note that you will also need to uncomment the "build-dev" step above so
+    # that you have a codebase to work with.) This assumes you have a
+    # well-configured settings.php file committed to your repo and all testing
+    # dependencies like Behat and PHPUnit as dev
+    # dependencies.
+    #  - test:
+    #      type: script
+    #      script:
+    #        - drush site-install
+    #        - drush runserver --default-server=builtin 8080 &>/dev/null &
+    #        - behat
+    #        - phpunit
+    #
+    # Generate artifact. This is the codebase that will be available in the
+    # Acquia Cloud interface.
+      - build-artifact:
           type: script
           script:
-            - cd $SOURCE_DIR
-            - mysql -u root -proot -e 'CREATE DATABASE drupal;'
-            - lightning install 'mysql\://root:root@localhost/drupal' lightning 'http://127.0.0.1:8080'
-      - cleanup:
-          type: script
-          script:
-            - cd $SOURCE_DIR
-            # Setup settings file and codebase with minimum required for cloud.
-            # Pass SITENAME to configureCloud function as optional subscription parameter.
-            # See lightning_dev/Commands/RoboFile.php:533.
-            - lightning configure:cloud $SITENAME
-            # Remove the Drush binary and package so it doesn't interfere with
-            # cloud versions. Doing this the proper way with Composer can cause
-            # timeouts.
+            - composer install --no-dev --optimize-autoloader
   post-deploy:
     steps:
       # Deploy the build artifact to an on-demand environment,
