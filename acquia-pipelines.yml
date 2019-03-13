@@ -8,16 +8,17 @@ variables:
 # Enter your Acquia application variables here.
   global:
     SITENAME: $PIPELINE_CLOUD_SITE
-    # The Acquia Cloud application name or site name.
-    # By default, we let Pipelines detect this and set this.
+    # The Acquia Cloud application name (aka 'site name').
+    # By default, we let Pipelines detect and set this.
     ENVIRONMENT:
     # The Acquia Cloud environment
     # This can be used for code deployment purposes
     DATABASE: $PIPELINE_CLOUD_SITE
     # The Acquia Cloud database name.
-    # On Acquia, the name of the database provisioned by default
-    # is equal to the application name or site name.
-    # Only mnually created databases have unique names.
+    # On Acquia, the database provisioned by default
+    # has the sanme name as the application name.
+    # Only mnually created databases have unique names,
+    # see https://docs.acquia.com/acquia-cloud/manage/database/#adding-a-new-database.
 
 cde-databases:
   - $DATABASE
@@ -30,9 +31,13 @@ events:
       - setup:
           type: script
           script:
-            - echo "sitename = $SITENAME"
-            - echo "environment = $ENVIRONMENT"
-            - echo "database = $DATABASE"
+            - echo 'Our global variables:'
+            - echo
+            - echo 'sitename = $SITENAME'
+            - echo
+            - echo 'environment = $ENVIRONMENT'
+            - echo
+            - echo 'database = $DATABASE'
     # Build a development codebase suitable for testing.
     # Uncomment these lines if you have included testing dependencies in
     # Composer's "require-dev" section.
