@@ -31,12 +31,11 @@ events:
       - setup:
           type: script
           script:
-            - echo 'Our global variables:'
+            - echo "Our global variables:"
             - echo "pipelinecloudsite = $PIPELINE_CLOUD_SITE"
-            - echo 'pipelinecloudsite = $PIPELINE_CLOUD_SITE'
-            - echo 'sitename = $SITENAME'
-            - echo 'environment = $ENVIRONMENT'
-            - echo 'database = $DATABASE'
+            - echo "sitename = $SITENAME"
+            - echo "environment = $ENVIRONMENT"
+            - echo "database = $DATABASE"
     # Build a development codebase suitable for testing.
     # Uncomment these lines if you have included testing dependencies in
     # Composer's "require-dev" section.
