@@ -67,6 +67,16 @@ events:
           type: script
           script:
             - composer install --no-dev --optimize-autoloader
+            - pwd
+            - cd ./sites/default/
+            - pwd
+            - mkdir files
+            - cd ./sites/default/
+            - cp default.services.php services.php
+            - cp default.settings.php settings.php
+            - printf "\nif (file_exists('/var/www/site-php')) {" >> settings.php
+            - printf "\nrequire '/var/www/site-php/$SITENAME/$DATABASE-settings.inc';" >> settings.php
+            - printf "\n}" >> settings.php
   post-deploy:
     steps:
       # Deploy the build artifact to an on-demand environment,
