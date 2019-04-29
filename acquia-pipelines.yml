@@ -26,6 +26,7 @@ cde-databases:
   # Enter additional databases, if applicable
 
 events:
+  # More on Pipelines Events: https://docs.acquia.com/acquia-cloud/develop/pipelines/yaml/#events-key
   build:
     steps:
       - setup:
