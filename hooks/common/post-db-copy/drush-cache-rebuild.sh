@@ -14,8 +14,9 @@ drush_alias=$site'.'$target_env
 echo "Hello! I am a shell script that is automatically executed after every database copy using an Acquia post-db-copy Cloud Hook!"
 
 # Execute a standard drush command.
-echo "firing drush cache-rebuild"
-drush @$drush_alias cr -v
-echo "cache-rebuild complete"
+#echo "firing drush cache-rebuild"
+#drush @$drush_alias cr -v
+#echo "cache-rebuild complete"
+echo "you can execute all sorts of cool stuff here..."
 
 echo "Acquia post-db-copy Cloud Hook complete!"
