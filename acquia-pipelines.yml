@@ -1,8 +1,12 @@
-version: 1.2.0
+# This is an example Acquia Pipelines configuration file. For complete
+# documentation and other examples, see https://docs.acquia.com/acquia-cloud/develop/pipelines/yaml/
+#
+# If you'd like a project which sets up testing and Pipelines for you, consider
+# using Acquia BLT: https://github.com/acquia/bltversion: 1.2.0
 services:
   - mysql
   - php:
-      version: 7.1
+      version: 7.3
 
 variables:
 # Enter your Acquia application variables here.
