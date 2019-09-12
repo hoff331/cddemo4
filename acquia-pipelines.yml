@@ -1,8 +1,13 @@
-version: 1.2.0
+# This is an example Acquia Pipelines configuration file. For complete
+# documentation and other examples, see https://docs.acquia.com/acquia-cloud/develop/pipelines/yaml/
+#
+# If you'd like a project which sets up testing and Pipelines for you, consider
+# using Acquia BLT: https://github.com/acquia/bltversion: 1.2.0
+version: 1.3.0
 services:
   - mysql
   - php:
-      version: 7.1
+      version: 7.3
 
 variables:
 # Enter your Acquia application variables here.
@@ -22,7 +27,7 @@ variables:
 
 cde-databases:
   - $DATABASE
-  #- db2
+  - db2
   # Enter additional databases, if applicable
 
 events:
@@ -36,7 +41,7 @@ events:
             - echo "pipelinecloudsite = $PIPELINE_CLOUD_SITE"
             - echo "sitename = $SITENAME"
             - echo "environment = $ENVIRONMENT"
-            - echo "database = $DATABASE"
+            #- echo "database = $DATABASE"
     # Build a development codebase suitable for testing.
     # Uncomment these lines if you have included testing dependencies in
     # Composer's "require-dev" section.
@@ -67,17 +72,6 @@ events:
           type: script
           script:
             - composer install --no-dev --optimize-autoloader
-            - pwd
-            - ls -lah
-            # - cd ./sites/default/
-            # - pwd
-            # - mkdir files
-            # - cd ./sites/default/
-            # - cp default.services.php services.php
-            # - cp default.settings.php settings.php
-            # - printf "\nif (file_exists('/var/www/site-php')) {" >> settings.php
-            # - printf "\nrequire '/var/www/site-php/$SITENAME/$DATABASE-settings.inc';" >> settings.php
-            # - printf "\n}" >> settings.php
   post-deploy:
     steps:
       # Deploy the build artifact to an on-demand environment,
@@ -87,3 +81,19 @@ events:
             - pipelines-deploy
             - pipelines-sync-dbs $DATABASE
             # See https://docs.acquia.com/acquia-cloud/develop/pipelines/databases/
+
+  # When a GitHub pull request is merged, this deletes the coresponding ODE.
+  # https://docs.acquia.com/acquia-cloud/develop/pipelines/commands/
+  pr-merged:
+      steps:
+      - deploy:
+          script:
+              - pipelines-deploy
+
+  # When a GitHub pull request is closed, this deletes the coresponding ODE.
+  # https://docs.acquia.com/acquia-cloud/develop/pipelines/commands/
+  pr-closed:
+      steps:
+      - deploy:
+          script:
+              - pipelines-deploy
