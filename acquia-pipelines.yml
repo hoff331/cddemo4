@@ -25,9 +25,9 @@ variables:
     # Only mnually created databases have unique names,
     # see https://docs.acquia.com/acquia-cloud/manage/database/#adding-a-new-database.
 
-#cde-databases:
-  #- $DATABASE
-  #- db2
+cde-databases:
+  - $DATABASE
+  - db2
   # Enter additional databases, if applicable
 
 events:
@@ -79,7 +79,7 @@ events:
       - deploy:
           script:
             - pipelines-deploy
-            #- pipelines-sync-dbs $DATABASE
+            - pipelines-sync-dbs $DATABASE
             # See https://docs.acquia.com/acquia-cloud/develop/pipelines/databases/
 
   # When a GitHub pull request is merged, this deletes the coresponding ODE.
