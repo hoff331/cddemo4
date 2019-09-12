@@ -25,8 +25,8 @@ variables:
     # Only mnually created databases have unique names,
     # see https://docs.acquia.com/acquia-cloud/manage/database/#adding-a-new-database.
 
-cde-databases:
-  - $DATABASE
+#cde-databases:
+  #- $DATABASE
   #- db2
   # Enter additional databases, if applicable
 
@@ -72,17 +72,6 @@ events:
           type: script
           script:
             - composer install --no-dev --optimize-autoloader
-            - pwd
-            - ls -lah
-            # - cd ./sites/default/
-            # - pwd
-            # - mkdir files
-            # - cd ./sites/default/
-            # - cp default.services.php services.php
-            # - cp default.settings.php settings.php
-            # - printf "\nif (file_exists('/var/www/site-php')) {" >> settings.php
-            # - printf "\nrequire '/var/www/site-php/$SITENAME/$DATABASE-settings.inc';" >> settings.php
-            # - printf "\n}" >> settings.php
   post-deploy:
     steps:
       # Deploy the build artifact to an on-demand environment,
@@ -90,5 +79,5 @@ events:
       - deploy:
           script:
             - pipelines-deploy
-            - pipelines-sync-dbs $DATABASE
+            #- pipelines-sync-dbs $DATABASE
             # See https://docs.acquia.com/acquia-cloud/develop/pipelines/databases/
