@@ -17,6 +17,12 @@ echo "Hello! I am a shell script that is automatically executed after every data
 echo "firing drush cache-rebuild"
 drush @$drush_alias cr -v
 echo "cache-rebuild complete"
+
+# Execute a standard drush command.
+echo "firing drush cron"
+drush @$drush_alias cron -v
+echo "cron complete"
+
 echo "you can execute all sorts of cool stuff here..."
 
 echo "Acquia post-db-copy Cloud Hook complete!"
