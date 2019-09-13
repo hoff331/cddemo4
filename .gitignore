@@ -7,11 +7,11 @@
 /docroot/modules/contrib
 /docroot/profiles/contrib
 /docroot/themes/contrib
-#/docroot/sites/default/files
+/docroot/sites/default/files
 
 # Ignore paths that contain user-generated content.
 /docroot/files
-#/docroot/sites/*/files
+/docroot/sites/*/files
 /docroot/sites/*/private
 
 # Ignore Composer-managed dependencies.
